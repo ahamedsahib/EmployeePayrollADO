@@ -58,6 +58,43 @@ namespace EmployeePayrollAdoTestProject
             }
 
         }
+        [TestMethod]
+        public void RetrieveDataUsingName()
+        {
+            try
+            {
+                string actual, expected;
+                model.name = "Dias";
+                expected = "Success";
+                actual = repository.GetDataUsingName(model);
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        /// <summary>
+        /// Method to retrive based on range
+        /// </summary>
+        [TestMethod]
+        public void RetrieveDataUsingRange()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Success";
+                actual = repository.RetriveDataBasedOnRange(model);
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
 
     }
 }

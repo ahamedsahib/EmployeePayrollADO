@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
@@ -73,7 +74,7 @@ namespace EmployeePayrollADO
             try
             {
                 //Qurey to retreive data
-                string query = "UPDATE employee_payroll set BasicPay=50000 WHERE name='lionel';";
+                string query = "UPDATE employee_payroll set BasicPay=50000 WHERE name='neymar';";
                 SqlCommand command = new SqlCommand(query, connection);
                 //Open Connection
                 this.connection.Open();
@@ -102,6 +103,50 @@ namespace EmployeePayrollADO
             }
             return output;
 
+        }
+        //Method to update salary using stored procedures
+        public string UpdateSalaryUsingStoredProcedure(EmployeeModel model)
+        {
+            string output = string.Empty;
+            try
+            {
+                using (this.connection)
+                {
+                    //sqlcommand object with stored procedure - dbo.UpdateDetails
+                    SqlCommand command = new SqlCommand("dbo.UpdateDetails", connection);
+                    //Setting command type
+                    command.CommandType = CommandType.StoredProcedure;
+                    //Adding values to stored procedures parameters
+                    command.Parameters.AddWithValue("@id", model.empId);
+                    command.Parameters.AddWithValue("@name", model.name);
+                    command.Parameters.AddWithValue("@Base_pay", model.basicPay);
+                    // Opening connection 
+                    connection.Open();
+                    //Executing using non query returns number of rows affected
+                    int res = command.ExecuteNonQuery();
+
+                    if (res != 0)
+                    {
+                        output = $"Updated";
+
+                    }
+                    else
+                    {
+                        output = "Not Updated";
+                    }
+
+                }
+                return output;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            finally
+            {
+                //closing the connection
+                connection.Close();
+            }
         }
 
     }

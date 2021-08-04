@@ -39,8 +39,8 @@ namespace EmployeePayrollADO
                         model.startDate = (DateTime)result["startDate"];
                         model.gender = Convert.ToChar(result["Gender"]);
                         model.department = Convert.ToString(result["department"]);
-                        model.phoneNumber = Convert.ToInt64(result["Phone"]);
-                        model.address = Convert.ToString(result["Address"]);
+                        model.phoneNumber = Convert.ToInt64(result["phone"]);
+                        model.address = Convert.ToString(result["address"]);
                         model.deductions = Convert.ToDouble(result["Deductions"]);
                         model.taxablePay = Convert.ToDouble(result["TaxablePay"]);
                         model.incomeTax = Convert.ToDouble(result["IncomeTax"]);
@@ -94,7 +94,6 @@ namespace EmployeePayrollADO
             catch (Exception ex)
             {
                 //handle exception
-                //Console.WriteLine(ex.Message);
                 return ex.Message;
             }
             finally
@@ -149,5 +148,120 @@ namespace EmployeePayrollADO
             }
         }
 
+        public string GetDataUsingName(EmployeeModel model)
+        {
+            string output = string.Empty;
+            try
+            {
+                using (this.connection)
+                {
+                    //sqlCommand initialised using stored procedure
+                    SqlCommand command = new SqlCommand("dbo.retriveBasedOnName", connection);
+                    //seeting command type to stored procedure
+                    command.CommandType = CommandType.StoredProcedure;
+                    //add parameters to stored procedures
+                    command.Parameters.AddWithValue("@name", model.name);
+                    //open the connection
+                    connection.Open();
+                    //Sql data reader- using execute reader returns object for resultset
+                    SqlDataReader result = command.ExecuteReader();
+
+                    //checking result set has rows are not
+                    if (result.HasRows)
+                    {
+                        while (result.Read())
+                        {
+                            //Print deatials that are retrived
+                            PrintDetails(result, model);
+                        }
+                        //close the reader object
+                        result.Close();
+                    }
+                    output = "Success";
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+                output = "Unsuccessfull";
+            }
+            finally
+            {
+                //close the connection
+                connection.Close();
+            }
+            return output;
+        }
+
+        /// <summary>
+        /// Retrive based on range
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public string RetriveDataBasedOnRange(EmployeeModel model)
+        {
+            string output = string.Empty;
+            try
+            {
+                using (this.connection)
+                {
+                    string query = @"SELECT * FROM employee_payroll WHERE startDate BETWEEN ('2008-05-01') and getdate()";
+                    //sqlCommand initialised 
+                    SqlCommand command = new SqlCommand(query, connection);
+
+                    //open the connection
+                    connection.Open();
+                    //Sql data reader- using execute reader returns object for resultset
+                    SqlDataReader result = command.ExecuteReader();
+
+                    //checking result set has rows are not
+                    if (result.HasRows)
+                    {
+                        while (result.Read())
+                        {
+                            //Print deatials that are retrived
+                            PrintDetails(result, model);
+                        }
+                        //close the reader object
+                        result.Close();
+                    }
+                    output = "Success";
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+                output = "Unsuccessfull";
+            }
+            finally
+            {
+                //close the connection
+                connection.Close();
+            }
+            return output;
+        }
+
+        
+        public void PrintDetails(SqlDataReader result, EmployeeModel model)
+        {
+        
+            model.empId = Convert.ToInt32(result["id"]);
+            model.name = Convert.ToString(result["name"]);
+            model.basicPay = Convert.ToDouble(result["BasicPay"]);
+            model.startDate = (DateTime)result["startDate"];
+            model.gender = Convert.ToChar(result["Gender"]);
+            model.department = Convert.ToString(result["department"]);
+            model.phoneNumber = Convert.ToInt64(result["phone"]);
+            model.address = Convert.ToString(result["address"]);
+            model.deductions = Convert.ToDouble(result["Deductions"]);
+            model.taxablePay = Convert.ToDouble(result["TaxablePay"]);
+            model.incomeTax = Convert.ToDouble(result["IncomeTax"]);
+            model.netPay = Convert.ToDouble(result["NetPay"]);
+            Console.WriteLine($"{model.empId},{model.name},{model.basicPay},{model.startDate},{model.gender},{model.department},{model.phoneNumber},{model.address},{model.deductions},{model.taxablePay},{model.incomeTax},{model.netPay}");
+        }
     }
 }
+
+ 

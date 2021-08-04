@@ -197,8 +197,7 @@ namespace EmployeePayrollADO
         /// <summary>
         /// Retrive based on range
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+    
         public string RetriveDataBasedOnRange(EmployeeModel model)
         {
             string output = string.Empty;

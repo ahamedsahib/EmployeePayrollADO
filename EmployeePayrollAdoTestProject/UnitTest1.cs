@@ -37,6 +37,27 @@ namespace EmployeePayrollAdoTestProject
             }
 
         }
+        [TestMethod]
+        public void UpdateSalaryUsingStoredProcedure()
+        {
+            try
+            {
+                string actual, expected;
+                //Setting values to model object
+                model.empId = 2;
+                model.name = "neymar";
+                model.basicPay = 50000;
+                //Expected
+                expected = "Updated";
+                actual = repository.UpdateSalary(model);
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
 
     }
 }

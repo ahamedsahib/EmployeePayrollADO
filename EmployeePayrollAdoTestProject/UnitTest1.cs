@@ -95,6 +95,22 @@ namespace EmployeePayrollAdoTestProject
             }
 
         }
+        [TestMethod]
+        public void TestForAggregateFunctions()
+        {
+            try
+            {
+                string actual, expected;
+                expected = $"Total Salary = 162000 Max Salary = 50000 Min Salary = 5000 Avg Salary = 32400 Gender = M  Count = 5";
+                actual = repository.AggregateFunctions("M");
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
 
     }
 }

@@ -7,7 +7,7 @@ namespace EmployeePayrollADO
 {
     public class EmployeeRepositry
     {
-        public static string connectionString = @" Data Source=(localdb)\MSSQLLocalDB;Initial Catalog = payroll_service; Integrated Security = True;";
+        public static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog = payroll_service; Integrated Security = True;";
             //SqlConnection
        SqlConnection connection = new SqlConnection(connectionString);
 
@@ -35,7 +35,7 @@ namespace EmployeePayrollADO
                         model.empId = Convert.ToInt32(result["id"]);
                         model.name = Convert.ToString(result["name"]);
                         model.basicPay = Convert.ToDouble(result["BasicPay"]);
-                        model.startDate = (Date)result["startDate"];
+                        model.startDate = (DateTime)result["startDate"];
                         model.gender = Convert.ToChar(result["Gender"]);
                         model.department = Convert.ToString(result["department"]);
                         model.phoneNumber = Convert.ToInt64(result["Phone"]);
@@ -65,6 +65,42 @@ namespace EmployeePayrollADO
                 //close connection
                 connection.Close();
             }
+
+        }
+        public string UpdateSalary(EmployeeModel model)
+        {
+            string output = string.Empty;
+            try
+            {
+                //Qurey to retreive data
+                string query = "UPDATE employee_payroll set BasicPay=50000 WHERE name='lionel';";
+                SqlCommand command = new SqlCommand(query, connection);
+                //Open Connection
+                this.connection.Open();
+                //Returns numbers of rows updated
+                int result = command.ExecuteNonQuery();
+                //Check Result set is greater or equal to 1
+                if (result >= 1)
+                {
+                    output = "Updated";
+                }
+                else
+                {
+                    output = "Not Updated";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //handle exception
+                //Console.WriteLine(ex.Message);
+                return ex.Message;
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return output;
 
         }
 

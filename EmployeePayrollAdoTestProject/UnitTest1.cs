@@ -9,12 +9,14 @@ namespace EmployeePayrollAdoTestProject
     {
         EmployeeRepositry repository;
         EmployeeModel model;
+        EmployeeRepo employeeRepo;
 
         [TestInitialize]
         public void Setup()
         {
             repository = new EmployeeRepositry();
             model = new EmployeeModel();
+            employeeRepo = new EmployeeRepo();
         }
         [TestMethod]
         public void UpdateSalary()
@@ -111,6 +113,84 @@ namespace EmployeePayrollAdoTestProject
             }
 
         }
+        /// <summary>
+        /// Test method for retrieve all data based on er
+        /// </summary>
+        [TestMethod]
+        public void TestForRetrieveDataER()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Success";
+                actual = employeeRepo.RetriveAllDataER(model);
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
+        }
+        /// <summary>
+        /// test for Update data based on er
+        /// </summary>
+        [TestMethod]
+        public void TestForUpdateER()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Updated";
+                actual = employeeRepo.UpdateDetailsER(model);
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        /// <summary>
+        /// Reteive based on range er
+        /// </summary>
+        [TestMethod]
+        public void TestForRetrieveUsingRangeER()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Success";
+                actual = employeeRepo.RetreiveBasedOnRangeER(model);
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        /// <summary>
+        /// test aggregate function based on er male
+        /// </summary>
+        [TestMethod]
+        public void TestForAggregateFunctionsER()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Success";
+                actual = employeeRepo.AggregateFunctionsER("M");
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+       
     }
 }

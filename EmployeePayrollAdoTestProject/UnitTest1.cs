@@ -20,7 +20,7 @@ namespace EmployeePayrollAdoTestProject
             employeeRepo = new EmployeeRepo();
             payrollTransaction = new PayrollTransaction();
         }
-        [TestMethod]
+        //[TestMethod]
         public void UpdateSalary()
         {
             try
@@ -41,7 +41,7 @@ namespace EmployeePayrollAdoTestProject
             }
 
         }
-        [TestMethod]
+       // [TestMethod]
         public void UpdateSalaryUsingStoredProcedure()
         {
             try
@@ -137,7 +137,7 @@ namespace EmployeePayrollAdoTestProject
         /// <summary>
         /// test for Update data based on er
         /// </summary>
-        [TestMethod]
+       // [TestMethod]
         public void TestForUpdateER()
         {
             try
@@ -196,7 +196,7 @@ namespace EmployeePayrollAdoTestProject
         /// <summary>
         /// Test For Insert Data Into Table Usin TQ query
         /// </summary>
-        [TestMethod]
+       // [TestMethod]
         public void TestForInsertIntoTableTransaction()
         {
             try
@@ -204,6 +204,25 @@ namespace EmployeePayrollAdoTestProject
                 string actual, expected;
                 expected = "Success";
                 actual = payrollTransaction.InsertDataIntoTableUsingTransaction();
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+        /// <summary>
+        /// Test For Deelete cascade
+        /// </summary>
+        [TestMethod]
+        public void TestMethodForDeleteCascade()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Deleted Successfully";
+                actual = payrollTransaction.DeleteCascade();
                 Assert.AreEqual(actual, expected);
             }
             catch (Exception ex)

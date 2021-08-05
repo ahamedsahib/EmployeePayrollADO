@@ -67,6 +67,49 @@ namespace EmployeePayrollADO
                 return output;
             }
         }
+       
+        /// <summary>
+        /// Delete cascade
+        /// </summary>
+        public string DeleteCascade()
+        {
+            string output = string.Empty;
+            using (connection)
+            {
+                //open the connection
+                connection.Open();
+                //Begin the transactions
+                SqlTransaction transaction = connection.BeginTransaction();
+                SqlCommand command = connection.CreateCommand();
+                command.Transaction = transaction;
 
+                try
+                {
+                    //set query to perform delete operation
+                    command.CommandText = @"delete from Employee where EmployeeId=5";
+                    //Execute command
+                    int x = command.ExecuteNonQuery();
+
+                    //if all executes are success commit the transaction
+                    transaction.Commit();
+                    output = "Deleted Successfully";
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    //If any error or exception occurs rollback the transaction
+                    transaction.Rollback();
+                    output = "Unsuccessfull";
+                }
+                finally
+                {
+                    //close the connection
+                    if (connection != null)
+                        connection.Close();
+                }
+                return output;
+            }
+        }
     }
+    
 }

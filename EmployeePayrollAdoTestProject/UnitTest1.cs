@@ -215,7 +215,7 @@ namespace EmployeePayrollAdoTestProject
         /// <summary>
         /// Test For Deelete cascade
         /// </summary>
-        [TestMethod]
+        //[TestMethod]
         public void TestMethodForDeleteCascade()
         {
             try
@@ -223,6 +223,64 @@ namespace EmployeePayrollAdoTestProject
                 string actual, expected;
                 expected = "Deleted Successfully";
                 actual = payrollTransaction.DeleteCascade();
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+        /// <summary>
+        /// Test For add column
+        /// </summary>
+        //[TestMethod]
+        public void TestForAddIsActiveColumn()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Success";
+                actual = payrollTransaction.AddIsActive();
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+        /// <summary>
+        /// Test For update audit
+        /// </summary>
+        [TestMethod]
+        public void TestForAudit()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Success";
+                actual = payrollTransaction.ListForAudit(1);
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        /// <summary>
+        /// Test Method For retreive all data transaction
+        /// </summary>
+        [TestMethod]
+        public void TestForRetreiveAllDataTransaction()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Success";
+                actual = payrollTransaction.RetriveAllData();
                 Assert.AreEqual(actual, expected);
             }
             catch (Exception ex)

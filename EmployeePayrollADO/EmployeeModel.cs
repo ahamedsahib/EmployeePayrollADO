@@ -21,5 +21,6 @@ namespace EmployeePayrollADO
         public double netPay { get; set; }
         public int companyId { get; set; }
         public string companyName { get; set; }
+        public int isActive { get; set; }
     }
 }

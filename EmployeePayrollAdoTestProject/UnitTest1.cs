@@ -10,6 +10,7 @@ namespace EmployeePayrollAdoTestProject
         EmployeeRepositry repository;
         EmployeeModel model;
         EmployeeRepo employeeRepo;
+        PayrollTransaction payrollTransaction;
 
         [TestInitialize]
         public void Setup()
@@ -17,6 +18,7 @@ namespace EmployeePayrollAdoTestProject
             repository = new EmployeeRepositry();
             model = new EmployeeModel();
             employeeRepo = new EmployeeRepo();
+            payrollTransaction = new PayrollTransaction();
         }
         [TestMethod]
         public void UpdateSalary()
@@ -191,6 +193,25 @@ namespace EmployeePayrollAdoTestProject
             }
 
         }
-       
+        /// <summary>
+        /// Test For Insert Data Into Table Usin TQ query
+        /// </summary>
+        [TestMethod]
+        public void TestForInsertIntoTableTransaction()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Success";
+                actual = payrollTransaction.InsertDataIntoTableUsingTransaction();
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
     }
 }

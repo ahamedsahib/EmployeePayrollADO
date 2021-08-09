@@ -289,6 +289,25 @@ namespace EmployeePayrollAdoTestProject
             }
 
         }
+        /// <summary>
+        /// Test Method For retreive all data  Transaction without using thread
+        /// </summary>
+        [TestMethod]
+        public void TestMEthodForRetreiveAllDataWithoutUsingThread()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "success";
+                actual = payrollTransaction.RetreiveAllDataWithoutUsingThread();
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
 
     }
 }

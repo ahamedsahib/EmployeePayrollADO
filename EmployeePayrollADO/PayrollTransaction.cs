@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Text;
 
 namespace EmployeePayrollADO
@@ -244,6 +245,30 @@ namespace EmployeePayrollADO
             {
                 //close connection
                 connection.Close();
+            }
+            return output;
+        }
+        /// <summary>
+        /// method to record time to retreive data without using thread
+        /// </summary>
+        /// <returns></returns>
+        public string RetreiveAllDataWithoutUsingThread()
+        {
+            string output = string.Empty;
+            try
+            {
+                Stopwatch stopWatch = new Stopwatch();
+                //start the stopwatch
+                stopWatch.Start();
+                RetriveAllData();
+                //stop stopwatch
+                stopWatch.Stop();
+                Console.WriteLine($"Duration : {stopWatch.ElapsedMilliseconds} milliseconds");
+                output = "success";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
             }
             return output;
         }

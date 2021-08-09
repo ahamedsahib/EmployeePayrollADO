@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EmployeePayrollADO
 {
@@ -272,28 +273,64 @@ namespace EmployeePayrollADO
             }
             return output;
         }
+        /// <summary>
+        /// Method to retrreive data using threads 
+        /// </summary>
+        /// <returns></returns>
+        public string RetreiveAllDataUsingThread()
+        {
+            string output = string.Empty;
+            try
+            {
+                //object for stopwatch
+                Stopwatch stopWatch = new Stopwatch();
+                //start the stopwatch
+                stopWatch.Start();
+                RetriveAllData();
+                //stop stopwatch
+                stopWatch.Stop();
+                Console.WriteLine($"Duration : {stopWatch.ElapsedMilliseconds} milliseconds");
+                output = "success";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            return output;
+        }
         public void ShowDetails(SqlDataReader result)
         {
             List<EmployeeModel> employeeModels = new List<EmployeeModel>();
-            EmployeeModel model = new EmployeeModel();
-            //reatreive data and print details
-            model.empId = Convert.ToInt32(result["EmployeeId"]);
-            model.name = Convert.ToString(result["EmployeeName"]);
-            model.basicPay = Convert.ToDouble(result["BasicPay"]);
-            model.startDate = (DateTime)result["StartDate"];
-            model.gender = Convert.ToChar(result["Gender"]);
-            model.department = Convert.ToString(result["DepartmentName"]);
-            model.phoneNumber = Convert.ToInt64(result["PhoneNumber"]);
-            model.address = Convert.ToString(result["EmpAddress"]);
-            model.deductions = Convert.ToDouble(result["Deductions"]);
-            model.taxablePay = Convert.ToDouble(result["TaxablePay"]);
-            model.incomeTax = Convert.ToDouble(result["IncomeTax"]);
-            model.netPay = Convert.ToDouble(result["NetPay"]);
-            model.companyId = Convert.ToInt32(result["CompanyId"]);
-            model.companyName = Convert.ToString(result["CompanyName"]);
-            model.isActive = Convert.ToInt32(result["IsActive"]);
-            employeeModels.Add(model);
-            Console.WriteLine($"{model.isActive},{model.empId},{model.name},{model.basicPay},{model.startDate},{model.gender},{model.department},{model.phoneNumber},{model.address},{model.deductions},{model.taxablePay},{model.incomeTax},{model.netPay},{model.companyId},{model.companyName}\n");
+            try
+            {
+                EmployeeModel model = new EmployeeModel();
+                //retrieve data and print details
+                model.empId = Convert.ToInt32(result["EmployeeId"]);
+                model.name = Convert.ToString(result["EmployeeName"]);
+                model.basicPay = Convert.ToDouble(result["BasicPay"]);
+                model.startDate = (DateTime)result["StartDate"];
+                model.gender = Convert.ToChar(result["Gender"]);
+                model.department = Convert.ToString(result["DepartmentName"]);
+                model.phoneNumber = Convert.ToInt64(result["PhoneNumber"]);
+                model.address = Convert.ToString(result["EmpAddress"]);
+                model.deductions = Convert.ToDouble(result["Deductions"]);
+                model.taxablePay = Convert.ToDouble(result["TaxablePay"]);
+                model.incomeTax = Convert.ToDouble(result["IncomeTax"]);
+                model.netPay = Convert.ToDouble(result["NetPay"]);
+                model.companyId = Convert.ToInt32(result["CompanyId"]);
+                model.companyName = Convert.ToString(result["CompanyName"]);
+                model.isActive = Convert.ToInt32(result["IsActive"]);
+                Task task = new Task(() =>
+                {
+                    employeeModels.Add(model);
+                    Console.WriteLine($"{model.isActive},{model.empId},{model.name},{model.basicPay},{model.startDate},{model.gender},{model.department},{model.phoneNumber},{model.address},{model.deductions},{model.taxablePay},{model.incomeTax},{model.netPay},{model.companyId},{model.companyName}\n");
+                });
+                //start the task
+                task.Start();
+            }catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 

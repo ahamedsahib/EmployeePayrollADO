@@ -298,6 +298,31 @@ namespace EmployeePayrollADO
             }
             return output;
         }
+        /// <summary>
+        /// method to retrreive data using thread synchronisation
+        /// </summary>
+        /// <returns></returns>
+        public string RetreiveDataUsingThreadSynchronization()
+        {
+            string output = string.Empty;
+            try
+            {
+                //object for stopwatch
+                Stopwatch stopWatch = new Stopwatch();
+                //start the stopwatch
+                stopWatch.Start();
+                RetriveAllData();
+                //stop stopwatch
+                stopWatch.Stop();
+                Console.WriteLine($"Duration : {stopWatch.ElapsedMilliseconds} milliseconds");
+                output = "success";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            return output;
+        }
         public void ShowDetails(SqlDataReader result)
         {
             List<EmployeeModel> employeeModels = new List<EmployeeModel>();
@@ -322,8 +347,14 @@ namespace EmployeePayrollADO
                 model.isActive = Convert.ToInt32(result["IsActive"]);
                 Task task = new Task(() =>
                 {
-                    employeeModels.Add(model);
-                    Console.WriteLine($"{model.isActive},{model.empId},{model.name},{model.basicPay},{model.startDate},{model.gender},{model.department},{model.phoneNumber},{model.address},{model.deductions},{model.taxablePay},{model.incomeTax},{model.netPay},{model.companyId},{model.companyName}\n");
+                    //using lock for synchronization
+                    lock (this)
+                    {
+                        Console.WriteLine($"Adding :{model.name}");
+                        employeeModels.Add(model);
+                        Console.WriteLine($"Added :{model.name}");
+                    }
+                   // Console.WriteLine($"{model.isActive},{model.empId},{model.name},{model.basicPay},{model.startDate},{model.gender},{model.department},{model.phoneNumber},{model.address},{model.deductions},{model.taxablePay},{model.incomeTax},{model.netPay},{model.companyId},{model.companyName}\n");
                 });
                 //start the task
                 task.Start();

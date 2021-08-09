@@ -325,9 +325,25 @@ namespace EmployeePayrollAdoTestProject
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+        /// <summary>
+        /// Test method to retrieve data by using thread synchronization
+        /// </summary>
+        [TestMethod]
+        public void TestMethodForRetreiveDataUsingThreadSynchronisation()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "success";
+                actual = payrollTransaction.RetreiveDataUsingThreadSynchronization();
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
         }
-
-
     }
 }
